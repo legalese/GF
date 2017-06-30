@@ -23,7 +23,8 @@ importGrammar :: PGF -> Options -> [FilePath] -> IO PGF
 importGrammar pgf0 _ [] = return pgf0
 importGrammar pgf0 opts files =
   case takeExtensions (last files) of
-    ".cf"   -> importCF opts files getBNFCRules bnfc2cf
+    cf | elem cf [".cf", ".bnf"] -- , ".lbnf", ".bnfc"]
+            -> importCF opts files getBNFCRules bnfc2cf
     ".ebnf" -> importCF opts files getEBNFRules ebnf2cf
     ".gfm"  -> do
       ascss <- mapM readMulti files
