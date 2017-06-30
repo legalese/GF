@@ -231,9 +231,9 @@ uniqueFuns = snd . mapAccumL uniqueFun Set.empty
   where
     uniqueFun funs (Rule cat items (CFObj fun args)) = (Set.insert fun' funs,Rule cat items (CFObj fun' args))
       where
-        fun' = head [fun'|suffix<-"":map show ([2..]::[Int]),
-                          let fun'=mkCId (showCId fun++suffix),
-                          not (fun' `Set.member` funs)]
+        fun' = head [fun' | suffix<-"":map show ([2..]::[Int]),
+                            let fun'=mkCId (showCId fun++suffix),
+                            not (fun' `Set.member` funs)]
 
 -- | Gets all rules in a CFG.
 allRules :: Grammar c t -> [Rule c t]
