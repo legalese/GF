@@ -302,7 +302,7 @@ prCFG = prProductions . map prRule . allRules
 
 prProductions :: [(Cat,String)] -> String
 prProductions prods = 
-    unlines [rpad maxLHSWidth lhs ++ " ::= " ++ rhs | (lhs,rhs) <- prods]
+    unlines [rpad maxLHSWidth lhs ++ " ::= " ++ rhs ++ " ;" | (lhs,rhs) <- prods]
     where
       maxLHSWidth = maximum $ 0:(map (length . fst) prods)
       rpad n s = s ++ replicate (n - length s) ' '
