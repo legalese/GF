@@ -661,25 +661,25 @@ the batch compiler. The following values are available both for
 the batch compiler (flag -output-format) and the print_grammar
 command (flag -printer):
 
- bnf		BNF (context-free grammar)
- ebnf		Extended BNF
- fa		finite automaton in graphviz format
- gsl		Nuance speech recognition format
- haskell		Haskell (abstract syntax)
- js		JavaScript (whole grammar)
- jsgf		JSGF speech recognition format
- lambda_prolog		LambdaProlog (abstract syntax)
- lp_byte_code		Bytecode for Teyjus (abstract syntax, experimental)
- pgf_pretty		human-readable pgf
- prolog		Prolog (whole grammar)
- python		Python (whole grammar)
- regexp		regular expression
- slf		SLF speech recognition format
- srgs_abnf		SRGS speech recognition format in ABNF
- srgs_abnf_nonrec		SRGS ABNF, recursion eliminated
- srgs_xml		SRGS speech recognition format in XML
- srgs_xml_nonrec		SRGS XML, recursion eliminated
- vxml		Voice XML based on abstract syntax
+ | bnf               | BNF (context-free grammar)
+ | ebnf              | Extended BNF
+ | fa                | finite automaton in graphviz format
+ | gsl               | Nuance speech recognition format
+ | haskell           | Haskell (abstract syntax)
+ | js                | JavaScript (whole grammar)
+ | jsgf              | JSGF speech recognition format
+ | lambda_prolog     | LambdaProlog (abstract syntax)
+ | lp_byte_code      | Bytecode for Teyjus (abstract syntax, experimental)
+ | pgf_pretty        | human-readable pgf
+ | prolog            | Prolog (whole grammar)
+ | python            | Python (whole grammar)
+ | regexp            | regular expression
+ | slf               | SLF speech recognition format
+ | srgs_abnf         | SRGS speech recognition format in ABNF
+ | srgs_abnf_nonrec  | SRGS ABNF, recursion eliminated
+ | srgs_xml          | SRGS speech recognition format in XML
+ | srgs_xml_nonrec   | SRGS XML, recursion eliminated
+ | vxml              | Voice XML based on abstract syntax
 
 
 - Options:
