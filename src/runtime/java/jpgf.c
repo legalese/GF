@@ -951,13 +951,20 @@ pgf_bracket_lzn_end_phrase(PgfLinFuncs** funcs, PgfCId cat, int fid, int lindex,
 	state->list = parent;
 }
 
+static void
+pgf_bracket_lzn_symbol_meta(PgfLinFuncs** funcs, PgfMetaId id)
+{
+	pgf_bracket_lzn_symbol_token(funcs, "?");
+}
+
 static PgfLinFuncs pgf_bracket_lin_funcs = {
 	.symbol_token  = pgf_bracket_lzn_symbol_token,
 	.begin_phrase  = pgf_bracket_lzn_begin_phrase,
 	.end_phrase    = pgf_bracket_lzn_end_phrase,
 	.symbol_ne     = NULL,
 	.symbol_bind   = NULL,
-	.symbol_capit  = NULL
+	.symbol_capit  = NULL,
+	.symbol_meta   = pgf_bracket_lzn_symbol_meta
 };
 
 JNIEXPORT jobjectArray JNICALL 
@@ -1397,6 +1404,32 @@ Java_org_grammaticalframework_pgf_Expr_unApply(JNIEnv* env, jobject self)
 	gu_pool_free(tmp_pool);
 
 	return japp;
+}
+
+JNIEXPORT jint JNICALL
+Java_org_grammaticalframework_pgf_Expr_unMeta(JNIEnv* env, jobject self)
+{
+	PgfExpr expr = gu_variant_from_ptr(get_ref(env, self));
+
+	PgfExprMeta* pmeta = pgf_expr_unmeta(expr);
+	if (pmeta != NULL) {
+		return pmeta->id;
+	}
+
+	return -1;
+}
+
+JNIEXPORT jstring JNICALL
+Java_org_grammaticalframework_pgf_Expr_unStr(JNIEnv* env, jobject self)
+{
+	PgfExpr expr = gu_variant_from_ptr(get_ref(env, self));
+
+	PgfLiteralStr* pstr = pgf_expr_unlit(expr, PGF_LITERAL_STR);
+	if (pstr != NULL) {
+		return gu2j_string(env, pstr->val);
+	}
+
+	return NULL;
 }
 
 JNIEXPORT jboolean JNICALL

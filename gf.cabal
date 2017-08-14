@@ -1,5 +1,5 @@
 name: gf
-version: 3.8-git
+version: 3.9
 
 cabal-version: >= 1.10
 build-type: Custom
@@ -9,9 +9,9 @@ category: Natural Language Processing, Compiler
 synopsis: Grammatical Framework
 description: GF, Grammatical Framework, is a programming language for multilingual grammar applications
 homepage: http://www.grammaticalframework.org/
-bug-reports: http://code.google.com/p/grammatical-framework/issues/list
+bug-reports: https://github.com/GrammaticalFramework/GF/issues
 maintainer: Thomas Hallgren
-tested-with: GHC==7.6.3, GHC==7.8.3, GHC==7.10.2, GHC==8.0.1
+tested-with: GHC==7.6.3, GHC==7.8.3, GHC==7.10.3, GHC==8.0.2
 
 data-dir: src
 data-files: tools/gf.el
@@ -99,7 +99,7 @@ Library
   else
     build-depends: binary, data-binary-ieee754
 
-  ghc-options: -fwarn-unused-imports
+--ghc-options: -fwarn-unused-imports
 --if impl(ghc>=7.8)
 --  ghc-options: +RTS -A20M -RTS
   ghc-prof-options: -fprof-auto
@@ -312,8 +312,7 @@ Library
   else
     build-tools: happy, alex>=3
 
-  if impl(ghc>=7.10)
-    ghc-options: -fno-warn-tabs
+  ghc-options: -fno-warn-tabs
 
   if os(windows)
     build-depends: Win32
@@ -326,7 +325,8 @@ Executable gf
   main-is: gf-main.hs
   default-language:    Haskell2010
   build-depends: gf, base
-  ghc-options: -threaded -fwarn-unused-imports
+  ghc-options: -threaded
+--ghc-options: -fwarn-unused-imports
 
   if impl(ghc>=7.0)
     ghc-options: -rtsopts -with-rtsopts=-I5

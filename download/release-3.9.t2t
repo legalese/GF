@@ -1,0 +1,73 @@
+GF 3.9 Release Notes
+August 2017
+
+%!style:../css/notes.css
+%!postproc(html): <TITLE> <meta charset="UTF-8"><meta name = "viewport" content = "width = device-width"> <TITLE>
+%!postproc(html): <H1> <H1><a href="../"><IMG src="../doc/Logos/gf0.png"></a>
+
+==Installation==
+
+See the [download page http://www.grammaticalframework.org/download/index.html].
+
+
+==What's new==
+
+The [GF  repository on GitHub https://github.com/GrammaticalFramework/GF/]
+is now our master source repository, not just a read-only mirror.
+Bug reports and feature requests can be submitted to the
+[issue tracker https://github.com/GrammaticalFramework/GF/issues],
+and we also accept pull requests.
+
+Over 200 changes have been pushed to the source repository since
+[the release of GF 3.8 release-3.8.html] in June 2016.
+
+
+===GF compiler and run-time library===
+
+
+====New features and notable changes====
+
+- Support for language-specific depencency configurations (in addition to abstract syntax based ones); see ``help vd`` in the GF shell
+
+- An experimental support for sentence lookup which makes it possible
+to find the sentence from the grammar that matches best a set of keywords.
+Right now it is usable only with controlled languages since it might be
+very innefficient for some grammars.
+
+- A new .NET binding for the GF runtime is available.
+
+- The API in the Java binding is extended and it covers more from 
+the full functionality of the C runtime.
+
+
+====Changes of interest to compiler developers====
+
+- The compiler source code has been updated for compatibility with GHC 8.2.1.
+
+
+===Resource Grammar Library===
+
+- New languages:
+  - Icelandic
+  - Norwegian Nynorsk
+
+
+- API now usable for incomplete languages via ``Missing`` modules:
+  implemented for Arabic and Latin.
+- Punctuation with ``BIND`` and ``SOFT_BIND`` tokens for a number of languages
+
+
+- Various fixes for several languages.
+
+- Various fixes in the translation dictionaries.
+
+
+===Apps and Cloud services===
+
+- PGF service: support for language-specific depencency configurations in
+  ``command=deptree``.
+
+
+--------------------
+
+[www.grammaticalframework.org http://www.grammaticalframework.org]
