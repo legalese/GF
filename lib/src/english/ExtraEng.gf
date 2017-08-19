@@ -131,7 +131,7 @@ concrete ExtraEng of ExtraEngAbs = CatEng **
       VVF VPresPart => ["being obliged to"] ;
       VVF VPast => "should" ; --# notpresent
       VVPastNeg => ["should not"] ; --# notpresent
-      VVPresNeg => ["shall not"]   # it would be nice to inflect by informal / formal
+      VVPresNeg => ["shall not"]  -- it would be nice to inflect by informal / formal
       } ;
     p = [] ;
     typ = VVAux
