@@ -154,7 +154,7 @@ data Flags = Flags {
       optLiteralCats     :: Set Ident,
       optGFODir          :: Maybe FilePath,
       optOutputDir       :: Maybe FilePath,
-      optGFLibPath       :: Maybe FilePath,
+      optGFLibPath       :: Maybe [FilePath],
       optDocumentRoot    :: Maybe FilePath, -- For --server mode
       optRecomp          :: Recomp,
       optProbsFile       :: Maybe FilePath,
@@ -209,9 +209,10 @@ parseModuleOptions args = do
     then return opts
     else errors $ map ("Non-option among module options: " ++) nonopts
 
-fixRelativeLibPaths curr_dir lib_dir (Options o) = Options (fixPathFlags . o)
+fixRelativeLibPaths curr_dir lib_dirs (Options o) = Options (fixPathFlags . o)
   where
-    fixPathFlags f@(Flags{optLibraryPath=path}) = f{optLibraryPath=concatMap (\dir -> [curr_dir </> dir, lib_dir </> dir]) path}
+    fixPathFlags f@(Flags{optLibraryPath=path}) = f{optLibraryPath=concatMap (\dir -> [parent </> dir
+                                                                                      | parent <- curr_dir : lib_dirs]) path}
 
 -- Showing options
 
@@ -424,7 +425,7 @@ optDescr =
        literalCat  x = set $ \o -> o { optLiteralCats = foldr Set.insert (optLiteralCats o) ((map identS . splitBy (==',')) x) }
        lexicalCat  x = set $ \o -> o { optLexicalCats = foldr Set.insert (optLexicalCats o) (splitBy (==',') x) }
        outDir      x = set $ \o -> o { optOutputDir = Just x }
-       gfLibPath   x = set $ \o -> o { optGFLibPath = Just x }
+       gfLibPath   x = set $ \o -> o { optGFLibPath = Just $ splitInModuleSearchPath x }
        gfDocuRoot  x = set $ \o -> o { optDocumentRoot = Just x }
        recomp      x = set $ \o -> o { optRecomp = x }
        probsFile   x = set $ \o -> o { optProbsFile = Just x }

@@ -14,7 +14,7 @@ import GF.Infra.UseIO(IOE,FullPath,liftIO,getLibraryDirectory,putIfVerb,
                       justModuleName,extendPathEnv,putStrE,putPointE)
 import GF.Data.Operations(raise,(+++),err)
 
-import Control.Monad(foldM,when,(<=<))
+import Control.Monad(foldM,when,(<=<),filterM,liftM)
 import GF.System.Directory(doesFileExist,getModificationTime)
 import System.FilePath((</>),isRelative,dropFileName)
 import qualified Data.Map as Map(empty,insert,elems) --lookup
@@ -78,10 +78,14 @@ compileModule opts1 env@(_,rfs) file =
   do file <- getRealFile file
      opts0 <- getOptionsFromFile file
      let curr_dir = dropFileName file
-     lib_dir  <- getLibraryDirectory (addOptions opts0 opts1)
-     let opts = addOptions (fixRelativeLibPaths curr_dir lib_dir opts0) opts1
+     lib_dirs <- getLibraryDirectory (addOptions opts0 opts1)
+     let opts = addOptions (fixRelativeLibPaths curr_dir lib_dirs opts0) opts1
+--     putIfVerb opts $ "curr_dir:" +++ show curr_dir ----
+--     putIfVerb opts $ "lib_dir:" +++ show lib_dirs ----
      ps0 <- extendPathEnv opts
      let ps = nub (curr_dir : ps0)
+--     putIfVerb opts $ "options from file: " ++ show opts0
+--     putIfVerb opts $ "augmented options: " ++ show opts
      putIfVerb opts $ "module search path:" +++ show ps ----
      files <- getAllFiles opts ps rfs file
      putIfVerb opts $ "files to read:" +++ show files ----
@@ -94,12 +98,11 @@ compileModule opts1 env@(_,rfs) file =
       if exists
         then return file
         else if isRelative file
-               then do lib_dir <- getLibraryDirectory opts1
-                       let file1 = lib_dir </> file
-                       exists <- doesFileExist file1
-                       if exists
-                         then return file1
-                         else raise (render ("None of these files exists:" $$ nest 2 (file $$ file1)))
+               then do lib_dirs <- getLibraryDirectory opts1
+                       file1s <- filterM doesFileExist [ lib_dir </> file | lib_dir <- lib_dirs ]
+                       if length file1s > 0
+                         then return $ liftM head file1s
+                         else raise (render ("Unable to find: " $$ nest 2 (file1s)))
                else raise (render ("File" <+> file <+> "does not exist."))
 
 compileOne' :: Options -> CompileEnv -> FullPath -> IOE CompileEnv
