@@ -98,12 +98,17 @@ compileModule opts1 env@(_,rfs) file =
       if exists
         then return file
         else if isRelative file
-               then do lib_dirs <- getLibraryDirectory opts1
-                       file1s <- filterM doesFileExist [ lib_dir </> file | lib_dir <- lib_dirs ]
-                       if length file1s > 0
-                         then return $ liftM head file1s
-                         else raise (render ("Unable to find: " $$ nest 2 (file1s)))
-               else raise (render ("File" <+> file <+> "does not exist."))
+               then do
+                       lib_dirs <- getLibraryDirectory opts1
+                       let candidates = [ lib_dir </> file | lib_dir <- lib_dirs ]
+                       putIfVerb opts1 (render ("looking for: " $$ nest 2 candidates))
+                       file1s <- filterM doesFileExist candidates
+                       case length file1s of
+                         0 -> raise (render ("Unable to find: " $$ nest 2 candidates))
+                         1 -> do return $ head file1s
+                         _ -> do putIfVerb opts1 ("matched multiple candidates: " +++ show file1s)
+                                 return $ head file1s
+               else raise (render ("File" <+> file <+> "does not exist"))
 
 compileOne' :: Options -> CompileEnv -> FullPath -> IOE CompileEnv
 compileOne' opts env@(gr,_) = extendCompileEnv env <=< compileOne opts gr
