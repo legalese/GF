@@ -116,7 +116,7 @@ concrete ExtraEng of ExtraEngAbs = CatEng **
       VVF VPPart => ["been allowed to"] ;
       VVF VPresPart => ["being allowed to"] ;
       VVF VPast => "might" ; --# notpresent
-      VVPastNeg => "mightn't" ; --# notpresent
+      VVPastNeg => ["might not"] ; --# notpresent
       VVPresNeg => "may not"
       } ;
     p = [] ;
@@ -130,8 +130,8 @@ concrete ExtraEng of ExtraEngAbs = CatEng **
       VVF VPPart => ["been obliged to"] ;
       VVF VPresPart => ["being obliged to"] ;
       VVF VPast => "should" ; --# notpresent
-      VVPastNeg => "shouldn't" ; --# notpresent
-      VVPresNeg => "shan't" 
+      VVPastNeg => ["should not"] ; --# notpresent
+      VVPresNeg => ["shall not"]   # it would be nice to inflect by informal / formal
       } ;
     p = [] ;
     typ = VVAux
@@ -144,8 +144,8 @@ concrete ExtraEng of ExtraEngAbs = CatEng **
       VVF VPPart => ["been obliged to"] ;
       VVF VPresPart => ["being obliged to"] ;
       VVF VPast => "ought to" ; --# notpresent
-      VVPastNeg => "oughtn't to" ; --# notpresent
-      VVPresNeg => "oughtn't to"  --- shan't
+      VVPastNeg => ["ought not to"] ; --# notpresent
+      VVPresNeg => ["ought not to"]  --- shan't
       } ;
     p = [] ;
     typ = VVAux
